@@ -1,4 +1,4 @@
-import { Component, input, ViewEncapsulation, inject, ElementRef } from '@angular/core';
+import { Component, input, ViewEncapsulation, inject, ElementRef, contentChild, AfterContentInit } from '@angular/core';
 
 @Component({
   selector: 'app-control',
@@ -12,12 +12,20 @@ import { Component, input, ViewEncapsulation, inject, ElementRef } from '@angula
     '(click)' : 'onClick()'
   }
 })
-export class ControlComponent {
+export class ControlComponent implements AfterContentInit{
   label = input.required<string>();
   private el = inject(ElementRef);
+  // @ContentChild('input') private control?: ElementRef<HTMLInputElement | HTMLTextAreaElement>;
+  private control = contentChild<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('input');
+
+
+  ngAfterContentInit() {
+
+  }
 
   onClick() {
     console.log('Clicked!');
     console.log(this.el);
+    console.log(this.control());
   }
 }
